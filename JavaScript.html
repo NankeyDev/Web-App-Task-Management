@@ -1,0 +1,122 @@
+<script>
+google.script.run.withSuccessHandler(viewData).getData();
+
+// Automatically assigns label to task based on task type and task deadline
+function getLabel(taskName, type, deadline) {
+  var label = "";
+  let totalDays="";
+  let today = new Date();
+  let d = new Date(deadline);
+  let difference = d-today;
+  let daysBetween = difference / (1000 * 60 * 60 * 24);
+  let numDays = Math.floor(daysBetween);
+  const LABELS = {
+    p1: "URGENT",
+    p2: "POSTPONABLE",
+    p3: "NOT IMPORTANT",
+    p4: "UNLABELED"
+  }
+
+  console.log("Start Label: " + label);
+  switch (type) {
+    case "Work":
+      var label = LABELS.p4
+      if (numDays <= 1) {
+        label = LABELS.p1
+        console.log("Label 1: " + label);
+      } else if ((numDays <= 30) && (taskName.includes("PLO") || taskName.includes("GJL"))){
+        label = LABELS.p2
+        console.log("Label 2: " + label);
+      } else if ((numDays <= 7) &&((taskName.includes("PLO") || taskName.includes("GJL"))==false)) {
+        label = LABELS.p2
+        console.log("Label 3: " + label);
+      } else {
+        label = LABELS.p3
+        console.log("Label 4: " + label);
+      }
+      console.log("Label: " + label);
+      return label;
+      break;
+    case "Personal":
+      var label = LABELS.p4
+      if (numDays <= 7) {
+        label = LABELS.p2
+      } else {
+        label = LABELS.p3
+      }
+      console.log("Label: " + label);
+      return label;
+      break;
+    case "Health":
+      if ((numDays <= 3) && (taskName.includes("Treatment")==false)) {
+        label = LABELS.p1
+        console.log("Label 1: " + label);
+      } else if ((numDays <= 3) && (taskName.includes("Treatment"))) {
+        label = LABELS.p2
+        console.log("Label 2: " + label);
+      } else if (numDays<=7) {
+        label = LABELS.p2
+        console.log("Label 3: " + label);
+      } else {
+        label = LABELS.p3
+        console.log("Label 4: " + label);
+      }
+      console.log("Label: " + label);
+      return label;
+      break;
+    default:
+      if (numDays <= 7) {
+        label = LABELS.p2
+        // Assumed 6-7 days are ok in postponable category.
+        // Unspecified in requirements.
+      } else if ((numDays >= 8) || (numDays == NULL)) {
+        label = LABELS.p3
+      }
+      console.log("Label: " + label);
+      return label;
+      break;
+  }
+}
+
+// Resets form values   
+function clearForm() {
+  document.getElementById("taskname").value = '';
+  document.getElementById("taskdescription").value = '';
+  document.getElementById("tasktype").value = '';
+  document.getElementById("taskduedate").value = '';
+}
+
+// Pushes the form fields to the google sheet
+function submitForm() {
+  // Get values from form fields
+  taskName = document.getElementById("taskname").value;
+  taskDescription = document.getElementById("taskdescription").value;
+  taskType = document.getElementById("tasktype").value;
+  taskDueDate = document.getElementById("taskduedate").value;
+  taskLabel = getLabel(taskName, taskType, taskDueDate);
+
+  // Adds data as row in google sheet
+  console.log("Task: " + taskName + ", " + taskDescription + ", " + taskType + ", " + taskDueDate + ", " + taskLabel);
+  google.script.run.addRecord(taskName, taskDescription, taskType, taskDueDate, taskLabel);
+
+  // Resets the form fields
+  clearForm();
+};
+
+// Populates the task table
+function viewData(dataArray){
+  $(document).ready(function(){
+    $('#datatable').DataTable({
+      data: dataArray,
+      columns: [		
+        {"title":"Name"},
+        {"title":"Description"},
+        {"title":"Type"},
+        {"title":"Due Date"},
+        {"title":"Label"}
+      ]
+    });
+  });
+}
+</script>
+
