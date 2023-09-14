@@ -28,7 +28,8 @@ function jdbc() {
   }
 
   // Add record to Task table
-  function createTask(task_name, task_description, task_type, task_due_date, label_id) {
+  // function createTask(task_name, task_description, task_type, task_due_date, label_id) {
+  window.createTask = function(task_name, task_description, task_type, task_due_date, label_id) {
     const name = task_name;
     const description = task_description;
     const type = task_type;
@@ -37,7 +38,8 @@ function jdbc() {
     const values = "'" + name + "', '" + description + "', '" + type + "', '" + dueDate + "', '" + labelId + "'";
     const sql = 'INSERT INTO Tasks (task_name, task_description, task_type, task_due_date, label_id) VALUES (' + values + ');';
     statement.execute(sql);
-  }
+  // }
+  };
 
   // Get all tasks from Task table
   function testSQL(id) {
@@ -99,5 +101,8 @@ function jdbc() {
 
   statement.close();
   connection.close();
-
 }
+
+
+  
+

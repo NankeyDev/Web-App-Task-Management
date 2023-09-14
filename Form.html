@@ -1,0 +1,24 @@
+<!-- Task Input Form -->
+<form id="Tasks">
+  <header>
+  <h1>Add New Task</h><br>
+  </header>
+  <label for="taskname" class="formLabel">Name:</label><br>
+  <input type = "text" id="taskname" /><br>
+
+  <label for="taskdescription" class="formLabel">Description:</label><br>
+  <input type = "text" id="taskdescription" /><br>
+
+  <label for="tasktype" class="formLabel">Type:</label><br>
+  <select name="tasktype" id="tasktype">
+    <option value="Work">Work</option>
+    <option value="Personal">Personal</option>
+    <option value="Health">Health</option>
+    <option value="Other">Other</option>
+  </select><br>
+
+  <label for="taskduedate" class="formLabel">Due Date:</label><br>
+  <input type = "date" id="taskduedate" name="taskduedate" value="" min="1900-01-01" max="2100-12-31"/><br>
+
+  <input type = "button" value = "Add" onclick="submitForm()"/><br>
+</form>

@@ -1,91 +1,25 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <base target="_top">
+    <meta name="viewport" content="width=device-width,initial-scale=1"> 
+
+    <!-- Linked HTML files -->
     <?!=include('Stylesheet');?>
     <?!=include('JavaScript');?>
+
     <!-- Linked Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
-
-    <script>
-     // Javascript.html
-    </script>
-
   </head>
 
   <body>
-    <form>
-      <!-- Task Input Form -->
-      <label for="taskname">Name:</label><br>
-      <input type = "text" id="taskname" /><br>
-
-      <label for="taskdescription">Description:</label><br>
-      <input type = "text" id="taskdescription" /><br>
-
-      <label for="tasktype">Type:</label><br>
-      <select name="tasktype" id="tasktype">
-        <option value="Work">Work</option>
-        <option value="Personal">Personal</option>
-        <option value="Health">Health</option>
-        <option value="Other">Other</option>
-      </select><br>
-
-      <label for="taskduedate">Due Date:</label><br>
-      <input type = "date" id="taskduedate" name="taskduedate" value="" min="1900-01-01" max="2100-12-31"/><br>
-
-      <!-- <label for="tasklabel">Label:</label><br> -->
-
-      <input type = "button" value = "Add" onclick="submitForm()"/><br>
-    </form>
-
-    <br>
-    Current Tasks:<br>
-
-    <!-- Table View of Data -->
-    <div class="container">
-        <br>
-        <div class="row">
-          <table id="datatable" class="table table-striped table-sm table-hover table-bordered">
-          </table>
-        </div>
-    </div> 
-
-    <br><br><br>
-    <header>
-      <h1>Setup & Instructions:</h>
-    </header>
-    <p>
-      Thank you for viewing!
-    </p>
-
-    <ul>
-      <li>Clone the public <a href="https://github.com/NankeyDev/TechnicalAssessment230906.git">GitHub Repository</a></li>
-      <li>Load project into <a href="https://script.google.com/home">Apps Script</a></li>
-      <li>Enable Google Sheets API (Apps Script main project window, Services > Add a Service > Google Sheets API)</li>
-      <li>Deploy the Web Application (Deploy > New Deployment)</li>
-    </ul>
-
-    <ul>
-      <li>The link to the sheet utilized in web application can be found in the following link: <i><a href="https://docs.google.com/spreadsheets/d/1LvLY5RBwm3nUqr-GBK5C0Q8ylX8uOSaTUzJG7jAXsDc/edit?usp=sharing">Sheet used in Application</a></i></li>
-    </ul>
-
-    <h2>Future Improvements:</h2>
-      <ul>
-        <li>Manual override of assigned label</li>
-        <li>Delete task functionality</li>
-        <li>Addition of MySQL Backend for Persistent Storage</li>
-        <li>Input Validation</li>
-        <li>Testing</li>
-        <li>Improved UI & UX</li>
-        <li>Auditing & Metadata</li>
-        <li>Improved Label Logic</li>
-        <li>Improved Processing Efficiency (label validation logic)</li>
-        <li>Improved Setup Instructions</li>
-      </ul>
+    <!-- Linked HTML files -->
+    <?!= include('Form'); ?>
+    <?!= include('DataTable'); ?>
+    <?!= include('Instructions'); ?>
   </body>
 </html>
