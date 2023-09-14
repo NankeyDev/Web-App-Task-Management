@@ -20,38 +20,73 @@ let taskTypeField = "";
 let taskDueDateField = "";
 let taskLabelField = "";
 
+// JDBC
 function jdbc() {
+  // Database information
   const connectionName = 'modern-rex-399023:us-west1:task-management';
   const username = 'root';
   const password = 'wkPq!e3i!3J9#8eZ^^@F';
   const dbName = 'task_management';
   const url = 'jdbc:google:mysql://' + connectionName + '/' + dbName;
-  
-  const sql1 = 'CREATE TABLE Labels(label_id INT, label_name VARCHAR(255), PRIMARY KEY (label_name))' 
-  const sql2 = 'CREATE TABLE Tasks(task_id INT, task_name VARCHAR(255),	task_description TEXT(500),	task_type VARCHAR(255),	task_due_date VARCHAR(255),	task_label VARCHAR(255), PRIMARY KEY (task_id), FOREIGN KEY (task_label) REFERENCES Labels(label_id))';
-  const sql3 = 'SHOW TABLES';
 
   // Logger.log(connection);
   const connection = Jdbc.getCloudSqlConnection(url, username, password);
   Logger.log(connection);
 
+  // Creates all base database tables (Task, Label)
+  function createTables() {
+    const createTable1 = 'CREATE TABLE Labels(label_id INT NOT NULL AUTO_INCREMENT, label_name VARCHAR(255), PRIMARY KEY (label_id))';
+    const createTable2 = 'CREATE TABLE Tasks(task_id INT NOT NULL AUTO_INCREMENT, task_name VARCHAR(255),	task_description TEXT(500),	task_type VARCHAR(255),	task_due_date VARCHAR(255),	label_id INT, PRIMARY KEY (task_id), FOREIGN KEY (label_id) REFERENCES Labels(label_id))';
+    statement.execute(createTable1);
+    statement.execute(createTable2);
+    console.log('Tables created');
+  }
+
+  // Function to create new label (Adds record to Label table)
+  function createLabel(name) {
+    const sql = 'INSERT INTO Labels (label_name) VALUES (\'' + name + '\');';
+    statement.execute(sql);
+  }
+
+  // Delete database tables
+  function deleteTables() {
+    const table1 = 'DROP TABLE Tasks';
+    const table2 = 'DROP TABLE Labels'; 
+    statement.execute(table1);
+    statement.execute(table2);
+    console.log('Tables deleted.');
+  }
+
   // Testing connection to DB
   let statement = connection.createStatement();
   Logger.log(statement);
 
-  // Two ways to execute query statement
-  // Method 1
-  let result = statement.execute(sql3);
-  Logger.log(result);
-  // Returns true or false
+  // Show Tables
+  function printTables(){
+    console.log('Tables: ');
+    const sql = 'SHOW TABLES';
+    let query = statement.executeQuery(sql);
+    // Logger.log(query);
+    let array = [];
+    while(query.next()){
+      array.push([
+        query.getString(1)
+      ]);
+    }
+    Logger.log(array);
+  }
 
-  // Method 2: Query Statement (cannot be data manipulation statements)
-  let query = statement.executeQuery(sql3);
-  Logger.log(query);
+  // Create SQL Tables & Labels
+  // createTables();
+  // createLabel('URGENT');
+  // createLabel('POSTPONABLE');
+  // createLabel('UNIMPORTANT');
 
-  // Update statement (I currently have no tables to update)
-  // let update = statement.executeUpdate()
-  // Logger.log(update);
+  // Print SQL Tables
+  printTables();
+
+  // Delete SQL tables
+  // deleteTables();
 
   statement.close();
   connection.close();
