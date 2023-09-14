@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Task Management Application</title>
     <base target="_top">
     <meta name="viewport" content="width=device-width,initial-scale=1"> 
 
@@ -17,9 +18,19 @@
   </head>
 
   <body>
-    <!-- Linked HTML files -->
-    <?!= include('Form'); ?>
-    <?!= include('DataTable'); ?>
-    <?!= include('Instructions'); ?>
+    <div class="container">
+      <!-- Linked HTML files -->
+      <div class="row">  
+        <div class="col-lg-5">    
+        <?!= include('Form'); ?>
+        </div>
+        <div class="col-lg-7">  
+        <?!= include('DataTable'); ?>
+        </div> <br><br>
+        <div class="col-lg-7">  
+        <?!= include('Instructions'); ?>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
