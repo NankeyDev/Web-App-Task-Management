@@ -103,8 +103,10 @@
     clearForm();
   };
 
-  // Populates the task table
+  // Populates the Task table
+  // Utilizes jQuery JavaScript plugin: DataTables
   function viewData(dataArray){
+    // Initalizes DataTables table
     $(document).ready(function(){
       $('#dataTable').DataTable({
         data: dataArray,
